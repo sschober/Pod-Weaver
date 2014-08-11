@@ -49,7 +49,7 @@ sub _get_docname_via_comment {
 sub _get_docname_via_class_statement {
   my ($self, $ppi_document) = @_;
   my ($ignore, $docname, $ignore1) =
-    $ppi_document->serialize =~ /^\s*(class|role)\s*([\w:]+)\s*({|extends)/m;
+    $ppi_document->serialize =~ /^\s*(class|role)\s*([\w:]+)\s*({|extends|with)/m;
   return $docname;
 }
 
