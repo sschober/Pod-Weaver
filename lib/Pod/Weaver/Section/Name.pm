@@ -46,13 +46,21 @@ sub _get_docname_via_comment {
   return $self->_extract_comment_content($ppi_document, 'PODNAME');
 }
 
+sub _get_docname_via_class_statement {
+  my ($self, $ppi_document) = @_;
+  my ($ignore, $docname, $ignore1) =
+    $ppi_document->serialize =~ /^\s*(class|role)\s*([\w:]+)\s*({|extends)/m;
+  return $docname;
+}
+
 sub _get_docname {
   my ($self, $input) = @_;
 
   my $ppi_document = $input->{ppi_document};
 
   my $docname = $self->_get_docname_via_comment($ppi_document)
-             || $self->_get_docname_via_statement($ppi_document);
+             || $self->_get_docname_via_statement($ppi_document)
+             || $self->_get_docname_via_class_statement($ppi_document);
 
   return $docname;
 }
